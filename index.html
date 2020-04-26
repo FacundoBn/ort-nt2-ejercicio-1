@@ -9,13 +9,26 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+    <link rel="stylesheet" href="css/estilos.css">
 
 </head>
 
 
 <div class="container-fluid mt-3" id="app">
-    <input type="text" class="form-control" v-model="criterioDeBusqueda" placeholder="Ingresar un criterio de busqueda...">
+    <input type="text" class="form-control" v-model="criterioDeBusquedaNomApe" placeholder="Buscar por nombre y apellido">
     <br>
+    <input type="text" class="form-control" v-model="criterioDeBusquedaDni" placeholder="Buscar por dni">
+    <br>
+    <h3 v-if="!requisitoOkNomApe()&&!requisitoOkDni()" class="alert alert-warning">
+        Se requiere 3 caracteres por filtro
+    </h3>
+    <h3 v-else-if="!requisitoOkNomApe()" class="alert alert-warning">
+        Se requiere 3 caracteres en Nombre y Apellido
+    </h3>
+    <h3 v-else-if="!requisitoOkDni()" class="alert alert-warning">
+        Se requiere 3 caracteres en Dni
+    </h3>
+
     <div class="card-deck m-0">
         <div class="row">
             <div class="col" v-for="persona in personasFiltradas">
@@ -32,40 +45,6 @@
 
 </div>
 
-</html>
+<script src="js/main.js"></script>
 
-<script>
-    new Vue({
-        el: '#app',
-        data: {
-            criterioDeBusqueda: '',
-            //Aquí, en este array es donde tienen que agregar su información
-            personas:
-                [
-                    { nombre: 'Daniel', apellido: 'Sánchez', dni: 20442873, correo: 'danielsanchez68@hotmail.com' },
-                    //Agregar aquí nombre, apellido, dni y correo
-                    { nombre: 'Ezequiel', apellido: 'Laboranti', dni: 33032717, correo: 'ezelaboranti@hotmail.com' },
-                    { nombre: 'Santiago', apellido: 'Castro', dni: 33537569, correo: 'santucastro@live.com.ar' },
-                    { nombre: 'Tomas', apellido: 'Melendez', dni: 39847671, correo: 'tomas6melendez@gmail.com' },
-                    { nombre: 'Rodrigo', apellido: 'Iglesias', dni: 29004601, correo: 'rniglesias@gmail.com' },
-                    { nombre: 'Gonzalo', apellido: 'Garcia Tunon', dni: 38708301, correo: 'garciatunong@gmail.com' },
-                    { nombre: 'Eugenio', apellido: 'Sainte Marie', dni: 38707149, correo: 'eugenio.saintemarie@gmail.com' },
-                    { nombre: 'Clara', apellido: 'Franzoni', dni: 36626020, correo: 'franzoniclara23@gmail.com' },
-                    { nombre: 'Nuevo', apellido: 'y', dni: 0, correo: 'x@y' }
-                ]
-        },
-        computed: {
-            personasFiltradas() {
-                return this.personas.filter((persona) => {
-                    let registroCompleto = `${persona.nombre}${persona.apellido}${persona.dni}${persona.correo}`
-                    return registroCompleto.toLowerCase().includes(this.criterioDeBusqueda.toLowerCase())
-                });
-            }
-        },
-        methods: {
-            getNombreCompleto(persona) {
-                return `${persona.nombre} ${persona.apellido}`
-            }
-        }
-    });
-</script>
+</html>
